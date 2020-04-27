@@ -87,7 +87,7 @@ public class BattleShipFactoryGame extends BoardIFactoryGame {
     }
 
     @Override
-    public void loopUntilWinnerFound(Game temp) throws InterruptedException, InvalidInputException {
+    public void loopUntilWinnerFound(Game temp) throws InterruptedException {
         BattleShipGame game = (BattleShipGame) temp;
         Random random = new Random();
         game.setCurrPlayer(game.getParticipants().get(0));
