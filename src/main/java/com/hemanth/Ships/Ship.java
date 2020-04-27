@@ -2,19 +2,25 @@ package com.hemanth.Ships;
 
 public abstract class Ship {
     private Long uniqueId;
-    private  Integer length;
+    private String name;
+    private Integer length;
     private Integer headRow;
     private Integer headColumn;
     private Boolean ishorizontal;
-    private Integer hits=0;
-    private Boolean isSunk=false;
+    private Integer hits = 0;
+    private Boolean isSunk = false;
 
-    public Ship(Integer length, Integer headRow, Integer headColumn, Boolean ishorizontal,Long uniqueId) {
+    public Ship(Integer length, Integer headRow, Integer headColumn, Boolean ishorizontal, Long uniqueId,String name1) {
         this.length = length;
         this.headRow = headRow;
         this.headColumn = headColumn;
         this.ishorizontal = ishorizontal;
-        this.uniqueId=uniqueId;
+        this.uniqueId = uniqueId;
+        this.name=name1;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Long getUniqueId() {

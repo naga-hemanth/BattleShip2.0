@@ -17,6 +17,7 @@ import com.hemanth.Ships.Carrier;
 import com.hemanth.Ships.Cruiser;
 import com.hemanth.Ships.Destroyer;
 import com.hemanth.Ships.Submarine;
+import com.hemanth.Utils.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,9 +32,6 @@ public class BattleShipFactoryGame extends BoardIFactoryGame {
             System.out.println("As this is Battle Ship game u will get 2 Board one for Reference of" +
                     " Miss hits and other for placing ships");
             Board viewBoard = new BattleShipViewBoard();
-            Boolean temp = true;
-            Integer count = 0;
-            System.out.println(player.getName() + " Tell me where do u want to place Battleship");
             Boolean[][] board = new Boolean[10][10];
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
@@ -41,88 +39,17 @@ public class BattleShipFactoryGame extends BoardIFactoryGame {
                 }
             }
             List<Helper> store = new ArrayList<>();
-
-            while (temp) {
-                if (count > 0){
-                    System.err.println("Please enter corrent details as per rules");
-                }
-                Helper helper = takeInput();
-                if (BattleShipRules.checkIfPossible(helper.getHeadRow(), helper.getHeadColumn(), helper.getHorizontal(), BattleShip.len)){
-                    placeShipInTempBoard(helper, board, BattleShip.len);
-                    store.add(helper);
-                    temp = false;
-                }
-                count++;
-            }
-            printState(board);
-            temp = true;
-            count = 0;
+        System.out.println(player.getName() + " Tell me where do u want to place Battleship");
+        ValidationUtils.validateInputAndAddShips(player,board,store,BattleShip.len);
             System.out.println(player.getName() + " Tell me where do u want to place Carrier");
-            while (temp) {
-                if (count > 0){
-                    System.err.println("Please enter corrent details as per rules");
-                }
-                Helper helper = takeInput();
-                if (BattleShipRules.checkIfPossible(helper.getHeadRow(), helper.getHeadColumn(), helper.getHorizontal(), Carrier.len)
-                        && BattleShipRules.checkIfShipHasClash(helper, board, Carrier.len)){
-                    placeShipInTempBoard(helper, board, Carrier.len);
-                    store.add(helper);
-                    temp = false;
-                }
-                count++;
-            }
-            printState(board);
-            temp = true;
-            count = 0;
+        ValidationUtils.validateInputAndAddShips(player,board,store,Carrier.len);
             System.out.println(player.getName() + " Tell me where do u want to place Cruiser");
-            while (temp) {
-                if (count > 0){
-                    System.err.println("Please enter corrent details as per rules");
-                }
-                Helper helper = takeInput();
-
-                if (BattleShipRules.checkIfPossible(helper.getHeadRow(), helper.getHeadColumn(), helper.getHorizontal(), Cruiser.len)
-                        && BattleShipRules.checkIfShipHasClash(helper, board, Cruiser.len)){
-                    placeShipInTempBoard(helper, board, Cruiser.len);
-                    store.add(helper);
-                    temp = false;
-                }
-                count++;
-            }
-            printState(board);
-            temp = true;
-            count = 0;
+        ValidationUtils.validateInputAndAddShips(player,board,store,Cruiser.len);
             System.out.println(player.getName() + " Tell me where do u want to place Destroyer");
-            while (temp) {
-                if (count > 0){
-                    System.err.println("Please enter corrent details as per rules");
-                }
-                Helper helper = takeInput();
-                if (BattleShipRules.checkIfPossible(helper.getHeadRow(), helper.getHeadColumn(), helper.getHorizontal(), Destroyer.len)
-                        && BattleShipRules.checkIfShipHasClash(helper, board, Destroyer.len)){
-                    placeShipInTempBoard(helper, board, Cruiser.len);
-                    store.add(helper);
-                    temp = false;
-                }
-                count++;
-            }
-            printState(board);
-            temp = true;
-            count = 0;
+        ValidationUtils.validateInputAndAddShips(player,board,store,Destroyer.len);
             System.out.println(player.getName() + " Tell me where do u want to place Submarine");
-            while (temp) {
-                if (count > 0){
-                    System.err.println("Please enter corrent details as per rules");
-                }
-                Helper helper = takeInput();
-                if (BattleShipRules.checkIfPossible(helper.getHeadRow(), helper.getHeadColumn(), helper.getHorizontal(), Submarine.len)
-                        && BattleShipRules.checkIfShipHasClash(helper, board, Submarine.len)){
-                    placeShipInTempBoard(helper, board, Submarine.len);
-                    store.add(helper);
-                    temp = false;
-                }
-                count++;
-            }
+        ValidationUtils.validateInputAndAddShips(player,board,store,Submarine.len);
+
             Board placingBoard = new BattleShipPlacingBoard(store.get(0).getHeadRow(), store.get(0).getHeadColumn(), store.get(0).getHorizontal(),
                     store.get(1).getHeadRow(), store.get(1).getHeadColumn(), store.get(1).getHorizontal(),
                     store.get(2).getHeadRow(), store.get(2).getHeadColumn(), store.get(2).getHorizontal(),
@@ -131,47 +58,6 @@ public class BattleShipFactoryGame extends BoardIFactoryGame {
             battleShipGame.setBoardForPlayer(player, viewBoard, placingBoard);
             System.out.print("\033[H\033[2J");
         }
-
-    private void printState(Boolean[][] board) {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j]){
-                    System.out.print(1 + " | ");
-                } else {
-                    System.out.print(0 + " | ");
-                }
-            }
-            System.out.println(" ");
-        }
-    }
-
-    private void placeShipInTempBoard(Helper helper, Boolean[][] board, Integer len) {
-        if (helper.getHorizontal()){
-            for (int i = helper.getHeadColumn(); i < helper.getHeadColumn() + len; i++) {
-                board[helper.getHeadRow()][i] = true;
-            }
-        } else {
-            for (int i = helper.getHeadRow(); i < helper.getHeadRow() + len; i++) {
-                board[i][helper.getHeadColumn()] = true;
-            }
-        }
-    }
-
-    private Helper takeInput() {
-
-        try {
-            System.out.print("Enter front row place :");
-            Integer rowFront = Integer.valueOf(this.scanner.nextLine());
-            System.out.print("Enter front column place:");
-            Integer columnFront = Integer.valueOf(this.scanner.nextLine());
-            System.out.print("Enter if its Horizontal :");
-            Boolean isHorizontal = Boolean.valueOf(this.scanner.nextLine());
-            return new Helper(rowFront, columnFront, isHorizontal);
-        } catch (Exception e) {
-            System.out.println("Please enter valid Input " + e.getMessage());
-            return takeInput();
-        }
-    }
 
 
     @Override

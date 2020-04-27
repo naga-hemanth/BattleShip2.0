@@ -33,7 +33,7 @@ public class BattleShipPlacingBoard extends BattleShipBoard {
     }
 
     public Boolean hitOnShipAndIsSunk(Integer id) {
-        System.out.println("You hitted on Opponents " + this.ships.get(id - 1).getClass().getName());
+        System.out.println("You hitted on Opponents " + this.ships.get(id - 1).getName());
         this.ships.get(id - 1).hitOnShip();
         if (this.ships.get(id - 1).getSunk()){
             System.out.println("Opponents " + this.ships.get(id - 1).getClass().getName() + "is sunk");
